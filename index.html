@@ -5,10 +5,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Ultimate Task & Focus Manager</title>
 
-  <!-- Tailwind CDN -->
+  <link rel="manifest" href="manifest.json">
+
   <script src="https://cdn.tailwindcss.com"></script>
 
-  <!-- Google Font -->
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
 
   <style>
@@ -28,23 +28,19 @@
 
 <div class="max-w-5xl mx-auto space-y-6">
 
-  <!-- Header -->
   <header class="glass rounded-2xl p-4 flex justify-between items-center">
     <h1 class="text-xl font-bold">🧠 Ultimate Task & Focus</h1>
     <div id="clock" class="text-sm opacity-80"></div>
   </header>
 
-  <!-- Tabs -->
   <div class="flex gap-2">
     <button onclick="switchTab('tasks')" class="tab-btn bg-indigo-600 px-4 py-2 rounded-xl">Tasks</button>
     <button onclick="switchTab('journal')" class="tab-btn glass px-4 py-2 rounded-xl">My Day</button>
     <button onclick="switchTab('focus')" class="tab-btn glass px-4 py-2 rounded-xl">Focus</button>
   </div>
 
-  <!-- TASK MANAGER -->
   <section id="tasks" class="tab glass rounded-2xl p-4 space-y-4">
 
-    <!-- Add Task -->
     <div class="grid md:grid-cols-4 gap-2">
       <input id="taskTitle" placeholder="Task title" class="p-2 rounded-lg text-black">
       <select id="priority" class="p-2 rounded-lg text-black">
@@ -56,7 +52,6 @@
       <button onclick="addTask()" class="bg-indigo-600 rounded-lg">Add</button>
     </div>
 
-    <!-- Filters -->
     <div class="flex flex-wrap gap-2 text-sm">
       <select id="statusFilter" onchange="renderTasks()" class="p-2 rounded-lg text-black">
         <option value="all">All</option>
@@ -71,11 +66,9 @@
       </select>
     </div>
 
-    <!-- Task List -->
     <div id="taskList" class="space-y-2"></div>
   </section>
 
-  <!-- DAILY JOURNAL -->
   <section id="journal" class="tab hidden glass rounded-2xl p-4 space-y-3">
     <input type="date" id="logDate" class="p-2 rounded-lg text-black w-full">
     <textarea id="logText" rows="5" placeholder="Write about your day..."
@@ -84,7 +77,6 @@
     <div id="logHistory" class="text-sm space-y-2"></div>
   </section>
 
-  <!-- POMODORO -->
   <section id="focus" class="tab hidden glass rounded-2xl p-6 text-center space-y-4">
     <h2 class="text-lg font-semibold">Pomodoro Focus</h2>
     <div class="w-48 h-48 mx-auto rounded-full border-8 border-indigo-500 flex items-center justify-center text-3xl"
@@ -206,6 +198,13 @@ updateTimer();
 
 renderTasks();
 Notification.requestPermission();
+
+// --- PWA Service Worker Registration (Added) ---
+if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+        navigator.serviceWorker.register('./sw.js');
+    });
+}
 </script>
 
 </body>
